@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.settings import settings
+from app.shared.exceptions import AppException, app_exception_handler
 
 app = FastAPI(
     title=settings.app_name,
@@ -18,6 +19,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.add_exception_handler(AppException, app_exception_handler)  # type: ignore[arg-type]
 
 
 @app.get("/health", tags=["health"])
