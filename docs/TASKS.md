@@ -10,7 +10,7 @@ Le projet doit respecter l'architecture DDD Lite définie dans CLAUDE.md et PROJ
 
 # PHASE 1 — INITIALISATION
 
-## Tâche 1
+## - [ ] Tâche 1
 
 Créer la structure du projet.
 
@@ -28,7 +28,7 @@ Le projet démarre correctement.
 
 ---
 
-## Tâche 2
+## - [ ] Tâche 2
 
 Configurer :
 
@@ -44,7 +44,7 @@ Connexion à PostgreSQL opérationnelle.
 
 ---
 
-## Tâche 3
+## - [ ] Tâche 3
 
 Configurer :
 
@@ -61,7 +61,7 @@ Pipeline qualité fonctionnel.
 
 # PHASE 2 — COUCHE SHARED
 
-## Tâche 4
+## - [ ] Tâche 4
 
 Créer BaseEntity.
 
@@ -83,7 +83,7 @@ Toutes les entités héritent de BaseEntity.
 
 ---
 
-## Tâche 5
+## - [ ] Tâche 5
 
 Créer les exceptions métier communes.
 
@@ -93,7 +93,7 @@ Exceptions centralisées.
 
 ---
 
-## Tâche 6
+## - [ ] Tâche 6
 
 Créer le système de pagination.
 
@@ -105,7 +105,7 @@ Pagination réutilisable.
 
 # PHASE 3 — TYPES PERSONNALISÉS
 
-## Tâche 7
+## - [ ] Tâche 7
 
 Implémenter :
 
@@ -121,7 +121,7 @@ Tous les validateurs fonctionnent.
 
 ---
 
-## Tâche 8
+## - [ ] Tâche 8
 
 Créer les serializers Pydantic v2.
 
@@ -131,7 +131,7 @@ Sérialisation conforme.
 
 ---
 
-## Tâche 9
+## - [ ] Tâche 9
 
 Créer les tests unitaires des types.
 
@@ -141,7 +141,7 @@ Critère :
 
 ---
 
-## Tâche 10
+## - [ ] Tâche 10
 
 Créer les tests Hypothesis.
 
@@ -153,7 +153,7 @@ Tous les types couverts.
 
 # PHASE 4 — AUTHENTIFICATION
 
-## Tâche 11
+## - [ ] Tâche 11
 
 Mettre en place JWT.
 
@@ -163,7 +163,7 @@ Connexion fonctionnelle.
 
 ---
 
-## Tâche 12
+## - [ ] Tâche 12
 
 Créer les rôles :
 
@@ -179,7 +179,7 @@ RBAC fonctionnel.
 
 # PHASE 5 — MODULE ORGANIZERS
 
-## Tâche 13
+## - [ ] Tâche 13
 
 Créer l'entité Organizer.
 
@@ -189,7 +189,7 @@ Migration générée.
 
 ---
 
-## Tâche 14
+## - [ ] Tâche 14
 
 Créer :
 
@@ -205,7 +205,7 @@ CRUD complet.
 
 # PHASE 6 — MODULE VENUES
 
-## Tâche 15
+## - [ ] Tâche 15
 
 Créer l'entité Venue.
 
@@ -215,7 +215,7 @@ Migration générée.
 
 ---
 
-## Tâche 16
+## - [ ] Tâche 16
 
 Créer :
 
@@ -231,7 +231,7 @@ CRUD complet.
 
 # PHASE 7 — MODULE CATEGORIES
 
-## Tâche 17
+## - [ ] Tâche 17
 
 Créer l'entité Category.
 
@@ -241,7 +241,7 @@ Migration générée.
 
 ---
 
-## Tâche 18
+## - [ ] Tâche 18
 
 Créer :
 
@@ -257,7 +257,7 @@ CRUD complet.
 
 # PHASE 8 — MODULE EVENTS
 
-## Tâche 19
+## - [ ] Tâche 19
 
 Créer l'entité Event.
 
@@ -267,7 +267,7 @@ Migration générée.
 
 ---
 
-## Tâche 20
+## - [ ] Tâche 20
 
 Créer les schémas :
 
@@ -282,7 +282,7 @@ Séparation stricte.
 
 ---
 
-## Tâche 21
+## - [ ] Tâche 21
 
 Créer le polymorphisme :
 
@@ -296,7 +296,7 @@ Discriminator Pydantic fonctionnel.
 
 ---
 
-## Tâche 22
+## - [ ] Tâche 22
 
 Créer les UseCases.
 
@@ -306,7 +306,7 @@ Aucune logique métier dans les routes.
 
 ---
 
-## Tâche 23
+## - [ ] Tâche 23
 
 Créer les endpoints CRUD.
 
@@ -316,7 +316,7 @@ CRUD complet.
 
 ---
 
-## Tâche 24
+## - [ ] Tâche 24
 
 Créer les filtres avancés.
 
@@ -334,7 +334,7 @@ Recherche fonctionnelle.
 
 ---
 
-## Tâche 25
+## - [ ] Tâche 25
 
 Créer les tris.
 
@@ -344,7 +344,7 @@ Tri ascendant et descendant.
 
 ---
 
-## Tâche 26
+## - [ ] Tâche 26
 
 Créer la pagination.
 
@@ -356,7 +356,7 @@ Pagination sur les listes.
 
 # PHASE 9 — AUDIT ET LOGS
 
-## Tâche 27
+## - [ ] Tâche 27
 
 Mettre en place les logs structurés.
 
@@ -366,7 +366,7 @@ Logs JSON.
 
 ---
 
-## Tâche 28
+## - [ ] Tâche 28
 
 Mettre en place l'audit.
 
@@ -378,7 +378,7 @@ Traçabilité complète.
 
 # PHASE 10 — DOCUMENTATION
 
-## Tâche 29
+## - [ ] Tâche 29
 
 Ajouter des exemples OpenAPI.
 
@@ -388,7 +388,7 @@ Swagger riche.
 
 ---
 
-## Tâche 30
+## - [ ] Tâche 30
 
 Documenter tous les endpoints.
 
@@ -400,7 +400,7 @@ Documentation complète.
 
 # PHASE 11 — TESTS
 
-## Tâche 31
+## - [ ] Tâche 31
 
 Tests unitaires.
 
@@ -410,7 +410,7 @@ Couverture élevée.
 
 ---
 
-## Tâche 32
+## - [ ] Tâche 32
 
 Tests d'intégration.
 
@@ -420,7 +420,7 @@ Endpoints testés.
 
 ---
 
-## Tâche 33
+## - [ ] Tâche 33
 
 Tests Hypothesis.
 
@@ -432,7 +432,7 @@ Validation robuste.
 
 # PHASE 12 — FINALISATION
 
-## Tâche 34
+## - [ ] Tâche 34
 
 Dockeriser le projet.
 
@@ -442,7 +442,7 @@ docker compose up fonctionne.
 
 ---
 
-## Tâche 35
+## - [ ] Tâche 35
 
 Vérifier le respect du cahier des charges.
 
@@ -452,7 +452,7 @@ Critère :
 
 ---
 
-## Tâche 36
+## - [ ] Tâche 36
 
 Préparer la soutenance.
 
