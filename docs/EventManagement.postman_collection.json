@@ -1,0 +1,615 @@
+{
+  "info": {
+    "_postman_id": "event-management-api-collection",
+    "name": "Event Management API",
+    "description": "Collection complète pour l'API de gestion d'événements culturels.\n\n**Démarrage rapide :**\n1. Définir `base_url` dans les variables de collection\n2. Exécuter `Auth / Register` pour créer un compte\n3. Exécuter `Auth / Login` — le token JWT est sauvegardé automatiquement dans `{{token}}`\n4. Toutes les routes protégées utilisent `{{token}}` automatiquement",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "description": "URL de base de l'API. Remplacer par https://events-api.gfolly.com en production."
+    },
+    {
+      "key": "token",
+      "value": "",
+      "description": "Token JWT — rempli automatiquement après un Login réussi."
+    },
+    {
+      "key": "venue_id",
+      "value": "",
+      "description": "public_id d'une salle — à remplir après création."
+    },
+    {
+      "key": "organizer_id",
+      "value": "",
+      "description": "public_id d'un organisateur — à remplir après création."
+    },
+    {
+      "key": "category_id",
+      "value": "",
+      "description": "public_id d'une catégorie — à remplir après création."
+    },
+    {
+      "key": "event_id",
+      "value": "",
+      "description": "public_id d'un événement — à remplir après création."
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Vérifie que le serveur est en ligne."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\",\n  \"full_name\": \"Carlo Admin\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "register"]
+            },
+            "description": "Crée un nouveau compte utilisateur (rôle USER par défaut)."
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.access_token) {",
+                  "    pm.collectionVariables.set('token', json.access_token);",
+                  "    console.log('Token JWT sauvegardé dans {{token}}');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "description": "Authentifie l'utilisateur et retourne un token JWT.\n\nLe token est **automatiquement sauvegardé** dans la variable `{{token}}` de la collection."
+          }
+        },
+        {
+          "name": "Me (profil connecté)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "me"]
+            },
+            "description": "Retourne le profil de l'utilisateur actuellement connecté."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "description": "Gestion des catégories thématiques. Création et modification réservées aux ADMIN.",
+      "item": [
+        {
+          "name": "Créer une catégorie",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.public_id) {",
+                  "    pm.collectionVariables.set('category_id', json.public_id);",
+                  "    console.log('category_id sauvegardé : ' + json.public_id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jazz\",\n  \"slug\": \"jazz\",\n  \"description\": \"Concerts et événements de jazz.\",\n  \"color\": \"#F59E0B\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/categories",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "categories"]
+            },
+            "description": "Crée une catégorie. **Rôle requis : ADMIN**\n\nLe `public_id` est sauvegardé automatiquement dans `{{category_id}}`."
+          }
+        },
+        {
+          "name": "Lister les catégories",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/categories?page=1&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "categories"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "size", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtenir une catégorie",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/categories/{{category_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "categories", "{{category_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Modifier une catégorie",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jazz & Blues\",\n  \"color\": \"#D97706\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/categories/{{category_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "categories", "{{category_id}}"]
+            },
+            "description": "Met à jour partiellement une catégorie. **Rôle requis : ADMIN**"
+          }
+        },
+        {
+          "name": "Supprimer une catégorie",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/categories/{{category_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "categories", "{{category_id}}"]
+            },
+            "description": "Supprime une catégorie. Retourne 204 No Content."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Venues",
+      "description": "Gestion des salles et lieux d'accueil.",
+      "item": [
+        {
+          "name": "Créer une salle",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.public_id) {",
+                  "    pm.collectionVariables.set('venue_id', json.public_id);",
+                  "    console.log('venue_id sauvegardé : ' + json.public_id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Salle Pleyel\",\n  \"slug\": \"salle-pleyel\",\n  \"address\": \"252 Rue du Faubourg Saint-Honoré\",\n  \"city\": \"Paris\",\n  \"postal_code\": \"75008\",\n  \"capacity\": 1913,\n  \"description\": \"Salle de concert parisienne de renom.\",\n  \"website\": \"https://sallepleyel.fr\",\n  \"telephone\": \"+33145619650\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/venues",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "venues"]
+            },
+            "description": "Crée une salle. **Rôles requis : ORGANIZER, ADMIN**\n\nLe `public_id` est sauvegardé automatiquement dans `{{venue_id}}`."
+          }
+        },
+        {
+          "name": "Lister les salles",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/venues?page=1&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "venues"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "size", "value": "20" },
+                { "key": "city", "value": "", "disabled": true, "description": "Filtre par ville (recherche partielle)" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtenir une salle",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/venues/{{venue_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "venues", "{{venue_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Modifier une salle",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"capacity\": 2000,\n  \"description\": \"Description mise à jour.\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/venues/{{venue_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "venues", "{{venue_id}}"]
+            },
+            "description": "Met à jour partiellement une salle. **Rôles requis : ORGANIZER, ADMIN**"
+          }
+        },
+        {
+          "name": "Supprimer une salle",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/venues/{{venue_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "venues", "{{venue_id}}"]
+            },
+            "description": "Supprime une salle. Retourne 204 No Content."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Organizers",
+      "description": "Gestion des organisateurs d'événements.",
+      "item": [
+        {
+          "name": "Créer un organisateur",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.public_id) {",
+                  "    pm.collectionVariables.set('organizer_id', json.public_id);",
+                  "    console.log('organizer_id sauvegardé : ' + json.public_id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Les Productions du Sud\",\n  \"email\": \"contact@productions-du-sud.fr\",\n  \"telephone\": \"+33612345678\",\n  \"website\": \"https://productions-du-sud.fr\",\n  \"description\": \"Producteur d'événements culturels depuis 2005.\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/organizers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "organizers"]
+            },
+            "description": "Crée un organisateur. **Rôles requis : ORGANIZER, ADMIN**\n\nLe `public_id` est sauvegardé automatiquement dans `{{organizer_id}}`."
+          }
+        },
+        {
+          "name": "Lister les organisateurs",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/organizers?page=1&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "organizers"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "size", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtenir un organisateur",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/organizers/{{organizer_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "organizers", "{{organizer_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Modifier un organisateur",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Les Productions du Sud SARL\",\n  \"telephone\": \"+33698765432\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/organizers/{{organizer_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "organizers", "{{organizer_id}}"]
+            },
+            "description": "Met à jour partiellement un organisateur.\nUn ORGANIZER ne peut modifier que son propre profil. Un ADMIN peut modifier n'importe lequel."
+          }
+        },
+        {
+          "name": "Supprimer un organisateur",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/organizers/{{organizer_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "organizers", "{{organizer_id}}"]
+            },
+            "description": "Supprime un organisateur. Retourne 204 No Content."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "description": "Gestion des événements culturels polymorphes : Concert, Théâtre, Conférence.",
+      "item": [
+        {
+          "name": "Créer un Concert",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.public_id) {",
+                  "    pm.collectionVariables.set('event_id', json.public_id);",
+                  "    console.log('event_id sauvegardé : ' + json.public_id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event_type\": \"concert\",\n  \"title\": \"Jazz Festival Paris 2025\",\n  \"slug\": \"jazz-festival-paris-2025\",\n  \"description\": \"Le plus grand festival de jazz parisien.\",\n  \"status\": \"published\",\n  \"start_at\": \"2025-07-14T20:00:00+02:00\",\n  \"end_at\": \"2025-07-14T23:30:00+02:00\",\n  \"venue_public_id\": \"{{venue_id}}\",\n  \"organizer_public_id\": \"{{organizer_id}}\",\n  \"category_public_id\": \"{{category_id}}\",\n  \"city\": \"Paris\",\n  \"price\": \"45.00\",\n  \"capacity\": 500,\n  \"image_url\": \"https://example.com/jazz.jpg\",\n  \"tags\": \"jazz,bebop,improvisation\",\n  \"artist\": \"Ibrahim Maalouf\",\n  \"genre\": \"Jazz contemporain\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/events",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events"]
+            },
+            "description": "Crée un événement de type **Concert**. **Rôles requis : ORGANIZER, ADMIN**\n\nRemplacer `{{venue_id}}`, `{{organizer_id}}`, `{{category_id}}` par de vrais UUIDs.\nLe `public_id` est sauvegardé dans `{{event_id}}`."
+          }
+        },
+        {
+          "name": "Créer une Pièce de Théâtre",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event_type\": \"theatre\",\n  \"title\": \"Le Malade Imaginaire\",\n  \"slug\": \"le-malade-imaginaire-2025\",\n  \"description\": \"Chef-d'œuvre de Molière mis en scène par Ariane Mnouchkine.\",\n  \"status\": \"published\",\n  \"start_at\": \"2025-09-01T20:30:00+02:00\",\n  \"end_at\": \"2025-09-01T23:00:00+02:00\",\n  \"venue_public_id\": \"{{venue_id}}\",\n  \"organizer_public_id\": \"{{organizer_id}}\",\n  \"category_public_id\": null,\n  \"city\": \"Lyon\",\n  \"price\": \"32.00\",\n  \"capacity\": 300,\n  \"image_url\": \"https://example.com/theatre.jpg\",\n  \"tags\": \"theatre,moliere,classique\",\n  \"director\": \"Ariane Mnouchkine\",\n  \"cast_members\": \"Sophie Marceau, Vincent Lindon\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/events",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events"]
+            },
+            "description": "Crée un événement de type **Théâtre**. **Rôles requis : ORGANIZER, ADMIN**"
+          }
+        },
+        {
+          "name": "Créer une Conférence",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event_type\": \"conference\",\n  \"title\": \"IA et Avenir du Travail\",\n  \"slug\": \"ia-avenir-travail-2025\",\n  \"description\": \"Conférence sur l'impact de l'IA sur les métiers de demain.\",\n  \"status\": \"published\",\n  \"start_at\": \"2025-10-15T09:00:00+02:00\",\n  \"end_at\": \"2025-10-15T18:00:00+02:00\",\n  \"venue_public_id\": \"{{venue_id}}\",\n  \"organizer_public_id\": \"{{organizer_id}}\",\n  \"category_public_id\": null,\n  \"city\": \"Bordeaux\",\n  \"price\": \"0.00\",\n  \"capacity\": 200,\n  \"image_url\": \"https://example.com/conference.jpg\",\n  \"tags\": \"ia,tech,travail,futur\",\n  \"speaker\": \"Pr. Yann LeCun\",\n  \"topic\": \"Intelligence Artificielle et Marché du Travail\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/events",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events"]
+            },
+            "description": "Crée un événement de type **Conférence**. **Rôles requis : ORGANIZER, ADMIN**"
+          }
+        },
+        {
+          "name": "Lister les événements",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events?page=1&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "size", "value": "20" },
+                { "key": "city", "value": "", "disabled": true, "description": "Filtrer par ville" },
+                { "key": "event_type", "value": "concert", "disabled": true, "description": "concert | theatre | conference" },
+                { "key": "category_public_id", "value": "", "disabled": true, "description": "UUID de la catégorie" },
+                { "key": "organizer_public_id", "value": "", "disabled": true, "description": "UUID de l'organisateur" },
+                { "key": "date_min", "value": "2025-01-01T00:00:00Z", "disabled": true, "description": "Date de début minimale (ISO 8601)" },
+                { "key": "date_max", "value": "2025-12-31T23:59:59Z", "disabled": true, "description": "Date de fin maximale (ISO 8601)" },
+                { "key": "price_max", "value": "50", "disabled": true, "description": "Prix maximum" },
+                { "key": "tags", "value": "jazz,bebop", "disabled": true, "description": "Tags séparés par des virgules" },
+                { "key": "sort_by", "value": "start_at", "disabled": true, "description": "start_at | price | title" },
+                { "key": "sort_order", "value": "asc", "disabled": true, "description": "asc | desc" }
+              ]
+            },
+            "description": "Liste les événements avec filtres et pagination. Route publique."
+          }
+        },
+        {
+          "name": "Obtenir un événement",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{event_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{event_id}}"]
+            },
+            "description": "Retourne le détail complet d'un événement (avec champs spécifiques au type). Route publique."
+          }
+        },
+        {
+          "name": "Modifier un événement",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Jazz Festival Paris 2025 — Édition Prestige\",\n  \"price\": \"55.00\",\n  \"status\": \"published\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{event_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{event_id}}"]
+            },
+            "description": "Met à jour partiellement un événement. **Rôles requis : ORGANIZER, ADMIN**\n\nTous les champs sont optionnels. Seuls les champs envoyés sont modifiés."
+          }
+        },
+        {
+          "name": "Supprimer un événement",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/events/{{event_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "events", "{{event_id}}"]
+            },
+            "description": "Supprime un événement. Retourne 204 No Content."
+          }
+        }
+      ]
+    }
+  ]
+}
