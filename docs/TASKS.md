@@ -231,7 +231,7 @@ CRUD complet.
 
 # PHASE 7 — MODULE CATEGORIES
 
-## - [ ] Tâche 17
+## - [x] Tâche 17
 
 Créer l'entité Category.
 
@@ -241,7 +241,7 @@ Migration générée.
 
 ---
 
-## - [ ] Tâche 18
+## - [x] Tâche 18
 
 Créer :
 

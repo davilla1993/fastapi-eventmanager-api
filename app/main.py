@@ -5,6 +5,9 @@ from app.modules.iam.api.controllers.auth_controller import router as auth_route
 from app.modules.organizers.api.controllers.organizer_controller import (
     router as organizer_router,
 )
+from app.modules.categories.api.controllers.category_controller import (
+    router as category_router,
+)
 from app.modules.venues.api.controllers.venue_controller import router as venue_router
 from app.settings import settings
 from app.shared.exceptions import AppException, app_exception_handler
@@ -30,6 +33,7 @@ app.add_exception_handler(AppException, app_exception_handler)  # type: ignore[a
 app.include_router(auth_router, prefix="/api/v1")
 app.include_router(organizer_router, prefix="/api/v1")
 app.include_router(venue_router, prefix="/api/v1")
+app.include_router(category_router, prefix="/api/v1")
 
 
 @app.get("/health", tags=["health"])

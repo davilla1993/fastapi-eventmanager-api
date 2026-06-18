@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import create_async_engine
 # Import all models so Alembic can detect them
 import app.modules.iam.domain.entities.user  # noqa: F401
 import app.modules.organizers.domain.entities.organizer  # noqa: F401
+import app.modules.categories.domain.entities.category  # noqa: F401
 import app.modules.venues.domain.entities.venue  # noqa: F401
 from alembic import context
 from app.settings import settings
