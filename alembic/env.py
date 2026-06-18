@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import create_async_engine
 import app.modules.iam.domain.entities.user  # noqa: F401
 import app.modules.organizers.domain.entities.organizer  # noqa: F401
 import app.modules.categories.domain.entities.category  # noqa: F401
+import app.modules.events.domain.entities.event  # noqa: F401
 import app.modules.venues.domain.entities.venue  # noqa: F401
 from alembic import context
 from app.settings import settings

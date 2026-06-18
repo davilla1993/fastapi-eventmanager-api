@@ -257,7 +257,7 @@ CRUD complet.
 
 # PHASE 8 — MODULE EVENTS
 
-## - [ ] Tâche 19
+## - [x] Tâche 19
 
 Créer l'entité Event.
 
@@ -267,7 +267,7 @@ Migration générée.
 
 ---
 
-## - [ ] Tâche 20
+## - [x] Tâche 20
 
 Créer les schémas :
 
@@ -282,7 +282,7 @@ Séparation stricte.
 
 ---
 
-## - [ ] Tâche 21
+## - [x] Tâche 21
 
 Créer le polymorphisme :
 
@@ -296,7 +296,7 @@ Discriminator Pydantic fonctionnel.
 
 ---
 
-## - [ ] Tâche 22
+## - [x] Tâche 22
 
 Créer les UseCases.
 
@@ -306,7 +306,7 @@ Aucune logique métier dans les routes.
 
 ---
 
-## - [ ] Tâche 23
+## - [x] Tâche 23
 
 Créer les endpoints CRUD.
 
@@ -316,7 +316,7 @@ CRUD complet.
 
 ---
 
-## - [ ] Tâche 24
+## - [x] Tâche 24
 
 Créer les filtres avancés.
 
@@ -334,7 +334,7 @@ Recherche fonctionnelle.
 
 ---
 
-## - [ ] Tâche 25
+## - [x] Tâche 25
 
 Créer les tris.
 
@@ -344,7 +344,7 @@ Tri ascendant et descendant.
 
 ---
 
-## - [ ] Tâche 26
+## - [x] Tâche 26
 
 Créer la pagination.
 
