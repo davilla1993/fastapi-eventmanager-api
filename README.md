@@ -162,25 +162,16 @@ Documentation interactive : `http://localhost:8000/docs`
 
 ## Déploiement Docker
 
-### Environnement local autonome (PostgreSQL inclus)
-
 ```bash
 # Copier les variables d'environnement
 cp .env.example .env
 # Éditer .env : renseigner SECRET_KEY (les autres ont des valeurs par défaut)
 
 # Démarrer l'API + PostgreSQL
-docker compose -f docker-compose.local.yml up --build
+docker compose up --build
 ```
 
 L'API est disponible sur `http://localhost:8000`. Les migrations sont appliquées automatiquement au démarrage.
-
-### Production (PostgreSQL externe — ex. Coolify)
-
-```bash
-# docker-compose.yml : l'API seule, DATABASE_URL injectée par la plateforme
-docker compose up --build
-```
 
 Le `CMD` du Dockerfile exécute automatiquement `alembic upgrade head` avant de démarrer uvicorn.
 
