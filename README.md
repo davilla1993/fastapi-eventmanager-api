@@ -256,24 +256,40 @@ curl "http://localhost:8000/api/v1/events?city=Lome&event_type=concert&price_max
 
 ## Tests
 
+### Prérequis
+
+Le fichier `.env` doit pointer vers une base PostgreSQL accessible et les migrations doivent être appliquées :
+
 ```bash
-# Tous les tests avec couverture
-pytest
-
-# Tests unitaires uniquement
-pytest tests/unit/
-
-# Tests d'intégration uniquement
-pytest tests/integration/
-
-# Tests property-based (Hypothesis)
-pytest tests/property/
-
-# Rapport de couverture HTML
-pytest --cov=app --cov-report=html
+alembic upgrade head
 ```
 
-Le seuil de couverture minimum est configuré à **80 %** dans `pyproject.toml`.
+### Commandes
+
+```bash
+# Tous les tests avec couverture (terminal)
+pytest
+
+# Lignes non couvertes détaillées
+pytest --cov=app --cov-report=term-missing
+
+# Rapport HTML navigable
+pytest --cov=app --cov-report=html
+# → ouvrir htmlcov/index.html dans le navigateur
+
+# Rapport XML (CI / Codecov)
+pytest --cov=app --cov-report=xml
+
+# Par dossier
+pytest tests/unit/
+pytest tests/integration/
+pytest tests/property/
+
+# Un fichier précis avec sortie détaillée
+pytest tests/integration/test_event_endpoints.py -v
+```
+
+Le seuil de couverture minimum est configuré à **80 %** dans `pyproject.toml`. En dessous de ce seuil, `pytest` retourne une erreur.
 
 ---
 
