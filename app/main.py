@@ -40,7 +40,7 @@ avec validation rigoureuse des données via des types Pydantic v2 personnalisés
 |---|---|
 | `Slug` | Identifiant URL-friendly (ex: `jazz-festival-2025`) |
 | `CodePostalFR` | Code postal français 5 chiffres |
-| `TelephoneE164` | Numéro E.164 (ex: `+33612345678`) |
+| `TelephoneE164` | Numéro E.164 (ex: `+22890123456`) |
 | `URLImage` | URL HTTPS avec extension jpg/jpeg/png/webp |
 | `IBAN` | IBAN européen validé |
 

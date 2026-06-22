@@ -9,7 +9,7 @@ def _org_payload(suffix: str = "") -> dict[str, object]:
     return {
         "name": f"Productions du Sud{suffix}",
         "email": f"contact{suffix.replace(' ', '')}@productions-sud.fr",
-        "telephone": "+33612345678",
+        "telephone": "+22890123456",
         "description": "Producteur d'événements culturels.",
     }
 

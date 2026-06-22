@@ -14,7 +14,7 @@ class _Model(BaseModel):
 @pytest.mark.parametrize(
     "value",
     [
-        "+33612345678",  # France mobile
+        "+22890123456",  # Togo mobile
         "+33142345678",  # France fixe
         "+12025550123",  # USA
         "+447911123456",  # UK
@@ -48,6 +48,6 @@ def test_telephone_invalide(value: str) -> None:
 
 
 def test_telephone_serialise_en_str() -> None:
-    m = _Model(tel="+33612345678")
-    assert m.model_dump()["tel"] == "+33612345678"
+    m = _Model(tel="+22890123456")
+    assert m.model_dump()["tel"] == "+22890123456"
     assert isinstance(m.model_dump()["tel"], str)

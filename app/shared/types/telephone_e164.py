@@ -9,7 +9,7 @@ _E164_RE = re.compile(r"^\+[1-9]\d{6,14}$")
 
 
 class TelephoneE164(str):
-    """Numéro de téléphone au format E.164 international. Ex: +33612345678"""
+    """Numéro de téléphone au format E.164 international. Ex: +22890123456"""
 
     @classmethod
     def __get_pydantic_core_schema__(
@@ -26,7 +26,7 @@ class TelephoneE164(str):
         if not _E164_RE.match(value):
             raise ValueError(
                 f"Numéro de téléphone invalide : '{value}'. "
-                "Format E.164 : '+' suivi de 7 à 15 chiffres (ex: +33612345678)."
+                "Format E.164 : '+' suivi de 7 à 15 chiffres (ex: +22890123456)."
             )
         return cls(value)
 

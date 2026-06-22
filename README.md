@@ -79,7 +79,7 @@ La couche `domain` ne dépend d'aucune autre couche.
 |---|---|
 | `Slug` | Chaîne URL-friendly : minuscules, chiffres, tirets |
 | `CodePostalFR` | Exactement 5 chiffres |
-| `TelephoneE164` | Format international E.164 (`+33612345678`) |
+| `TelephoneE164` | Format international E.164 (`+22890123456`) |
 | `URLImage` | URL HTTPS avec extension `jpg`, `jpeg`, `png` ou `webp` |
 | `IBAN` | IBAN européen validé (longueur + checksum) |
 
