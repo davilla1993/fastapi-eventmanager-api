@@ -162,14 +162,24 @@ Documentation interactive : `http://localhost:8000/docs`
 
 ## Déploiement Docker
 
-```bash
-# Construire et démarrer (PostgreSQL fourni par l'infrastructure)
-docker build -t eventmanagement-api .
+### Environnement local autonome (PostgreSQL inclus)
 
-docker run -p 8000:8000 \
-  -e DATABASE_URL="postgresql+asyncpg://user:pass@host:5432/dbname" \
-  -e SECRET_KEY="votre-cle-secrete" \
-  eventmanagement-api
+```bash
+# Copier les variables d'environnement
+cp .env.example .env
+# Éditer .env : renseigner SECRET_KEY (les autres ont des valeurs par défaut)
+
+# Démarrer l'API + PostgreSQL
+docker compose -f docker-compose.local.yml up --build
+```
+
+L'API est disponible sur `http://localhost:8000`. Les migrations sont appliquées automatiquement au démarrage.
+
+### Production (PostgreSQL externe — ex. Coolify)
+
+```bash
+# docker-compose.yml : l'API seule, DATABASE_URL injectée par la plateforme
+docker compose up --build
 ```
 
 Le `CMD` du Dockerfile exécute automatiquement `alembic upgrade head` avant de démarrer uvicorn.
@@ -222,11 +232,11 @@ curl -X POST http://localhost:8000/api/v1/events \
   -H "Content-Type: application/json" \
   -d '{
     "event_type": "concert",
-    "title": "Jazz Festival Paris 2025",
-    "slug": "jazz-festival-paris-2025",
+    "title": "Jazz Festival Lome 2025",
+    "slug": "jazz-festival-lome-2025",
     "start_at": "2025-07-14T20:00:00+02:00",
     "end_at": "2025-07-14T23:30:00+02:00",
-    "city": "Paris",
+    "city": "Lome",
     "price": "45.00",
     "capacity": 500,
     "venue_public_id": "<uuid>",
@@ -239,7 +249,7 @@ curl -X POST http://localhost:8000/api/v1/events \
 ### 5. Rechercher des événements avec filtres
 
 ```bash
-curl "http://localhost:8000/api/v1/events?city=Paris&event_type=concert&price_max=50&tags=jazz&page=1&size=10"
+curl "http://localhost:8000/api/v1/events?city=Lome&event_type=concert&price_max=50&tags=jazz&page=1&size=10"
 ```
 
 ---

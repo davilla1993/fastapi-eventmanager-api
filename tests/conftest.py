@@ -13,6 +13,8 @@ from app.infrastructure.security.jwt import create_access_token
 from app.infrastructure.security.password import hash_password
 from app.main import app
 from app.modules.iam.domain.entities.user import User, UserRole
+from app.modules.organizers.domain.entities.organizer import Organizer
+from app.modules.venues.domain.entities.venue import Venue
 from app.settings import settings
 from app.shared.domain.base import Base
 
@@ -59,3 +61,35 @@ async def client(test_engine: AsyncEngine) -> AsyncGenerator[AsyncClient]:
     ) as ac:
         yield ac
     app.dependency_overrides.clear()
+
+
+@pytest.fixture(scope="session")
+async def seed_venue(test_engine: AsyncEngine) -> str:
+    """Crée une salle en base pour les tests d'événements."""
+    venue = Venue(
+        name="Salle Intégration",
+        slug="salle-integration-seed",
+        address="1 Rue de la Paix",
+        city="Paris",
+        postal_code="75001",
+        capacity=300,
+    )
+    async with AsyncSession(test_engine, expire_on_commit=False) as session:
+        session.add(venue)
+        await session.commit()
+        await session.refresh(venue)
+    return str(venue.public_id)
+
+
+@pytest.fixture(scope="session")
+async def seed_organizer(test_engine: AsyncEngine) -> str:
+    """Crée un organisateur en base pour les tests d'événements."""
+    organizer = Organizer(
+        name="Organisateur Intégration",
+        email="org-integration@test.internal",
+    )
+    async with AsyncSession(test_engine, expire_on_commit=False) as session:
+        session.add(organizer)
+        await session.commit()
+        await session.refresh(organizer)
+    return str(organizer.public_id)
