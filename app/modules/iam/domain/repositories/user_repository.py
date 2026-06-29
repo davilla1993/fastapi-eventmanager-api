@@ -13,3 +13,6 @@ class AbstractUserRepository(ABC):
 
     @abstractmethod
     async def save(self, user: User) -> User: ...
+
+    @abstractmethod
+    async def list_all(self, offset: int = 0, limit: int = 20) -> tuple[list[User], int]: ...

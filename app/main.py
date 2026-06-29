@@ -11,6 +11,7 @@ from app.modules.categories.api.controllers.category_controller import (
 )
 from app.modules.events.api.controllers.event_controller import router as event_router
 from app.modules.iam.api.controllers.auth_controller import router as auth_router
+from app.modules.iam.api.controllers.user_controller import router as user_router
 from app.modules.organizers.api.controllers.organizer_controller import (
     router as organizer_router,
 )
@@ -78,6 +79,10 @@ _TAGS_METADATA = [
         "description": "Catégories thématiques des événements (réservé ADMIN).",
     },
     {
+        "name": "Users",
+        "description": "Gestion des comptes utilisateurs. La liste complète est réservée aux ADMINs.",
+    },
+    {
         "name": "Audit Logs",
         "description": "Consultation de l'historique des opérations d'écriture (réservé ADMIN).",
     },
@@ -116,6 +121,7 @@ app.add_middleware(
 app.add_exception_handler(AppException, app_exception_handler)  # type: ignore[arg-type]
 
 app.include_router(auth_router, prefix="/api/v1")
+app.include_router(user_router, prefix="/api/v1")
 app.include_router(audit_router, prefix="/api/v1")
 app.include_router(organizer_router, prefix="/api/v1")
 app.include_router(venue_router, prefix="/api/v1")

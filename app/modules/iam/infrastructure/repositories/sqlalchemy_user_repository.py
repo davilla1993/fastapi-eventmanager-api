@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.modules.iam.domain.entities.user import User
@@ -28,3 +28,15 @@ class SqlAlchemyUserRepository(AbstractUserRepository):
         await self._session.flush()
         await self._session.refresh(user)
         return user
+
+    async def list_all(self, offset: int = 0, limit: int = 20) -> tuple[list[User], int]:
+        base = User.deleted.is_(False)
+        total = (
+            await self._session.execute(select(func.count()).select_from(User).where(base))
+        ).scalar_one()
+        rows = (
+            await self._session.execute(
+                select(User).where(base).order_by(User.created_at.desc()).offset(offset).limit(limit)
+            )
+        ).scalars().all()
+        return list(rows), total
